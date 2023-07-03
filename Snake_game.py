@@ -19,6 +19,7 @@ color = ''
 new_speed = 0
 
 class Snake:
+    '''creates snake object'''
     def __init__(self):
         
         self.body_size = BODY_PARTS
@@ -32,6 +33,9 @@ class Snake:
             square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag="snake" )
             self.square.append(square)
 class Food:
+    '''creates food object with random shape and colors'''
+    '''#03fc84: green, #0328fc: blue ,#96030a: red'''
+    '''1: oval, 2:rectangle'''
     color = ''   
     def __init__(self):
         global food_shape
@@ -63,7 +67,7 @@ class Food:
             self.coordinates = [x,y]
             canvas.create_rectangle(x , y, x + SPACE_SIZE, y + SPACE_SIZE, fill=color, tag="food")
 def next_turn(snake, food):
-    
+    '''Determines actions after the snake catches the food'''
     x, y = snake.coordinates[0]
 
     if direction == "up":
@@ -108,7 +112,7 @@ def next_turn(snake, food):
         window.after((SPEED), next_turn, snake, food)
         
 def change_direction(new_direction):
-    
+    '''Controls snake direction during game'''
     global direction
 
     if new_direction == 'left':
@@ -128,6 +132,7 @@ def change_direction(new_direction):
             direction = new_direction
 
 def change_game(state):
+    '''Conditional used for the Game over prompt'''
     global GAME_STATE
     
     if GAME_STATE == "INACTIVE":
@@ -146,6 +151,7 @@ def change_game(state):
             window.quit()
         
 def score_mult():
+    '''Generates food points based on color and shape'''
     global color
     global score
     '''#03fc84: green, #0328fc: blue ,#96030a: red'''
@@ -173,15 +179,17 @@ def score_mult():
     label.config(text="Score: {}".format(score))
 
 def speed_calc():
+    '''Increases the speed of the snake while on the game, this needs further development'''
     global SPEED
     global new_speed
-    
+    '''SPEED is the internal snake speed which is set as a game constant with a value of 100'''
     SPEED -= 2
+    '''New speed is the speed players see on the screen, increases by two each time food is caught b the snake'''
     new_speed = (SPEED - 100) * (-1)
    
     label1.config(text="Speed: {}".format(new_speed))
 def prompt():
-
+    '''Game over prompt'''
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
                         font=('consolas', 15,), text="Thanks for playing. Press r to start a new game or q to exit",fill="orange", tag="prompt")
@@ -195,7 +203,7 @@ def prompt():
     window.bind('<Q>', lambda event: change_game('q'))  
     
 def check_collisions(snake):
-    
+    '''Check if the snake collides against window frame or against itself'''
     x, y = snake.coordinates[0]
 
     if x < 0 or x >= GAME_WIDTH:
@@ -212,6 +220,7 @@ def check_collisions(snake):
     return False
 
 def restart():
+    '''Restarts the game'''
     canvas.delete(ALL)
     snake = Snake()
     food = Food()

@@ -236,7 +236,7 @@ def restart():
 window = Tk()
 window.title(r"Snake game v2.0")
 
-icon = PhotoImage(file='logo.png')
+icon = PhotoImage(file="C:\\Users\\crargued\\Documents\\GitHub\\Snake_Game\\assets\\logo.png")
 window.iconphoto(True,icon)
 
 window.resizable(False,False)
